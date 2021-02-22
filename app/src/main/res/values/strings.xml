@@ -2,4 +2,5 @@
     <string name="login">Login to Google</string>
     <string name="loginButton">Login</string>
     <string name="app_name">Geocache Walks</string>
+    <string name="googleapp">googleapp</string>
 </resources>

@@ -37,12 +37,12 @@
         android:id="@+id/imageView"
         android:layout_width="151dp"
         android:layout_height="121dp"
+        android:contentDescription="@string/googleapp"
         app:layout_constraintBottom_toTopOf="@+id/titleText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.657"
-        app:srcCompat="@drawable/google"
-        android:contentDescription="TODO" />
+        app:srcCompat="@drawable/google" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
