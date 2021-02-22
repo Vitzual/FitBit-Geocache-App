@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "928823203696",
+    "project_id": "geocache-walks",
+    "storage_bucket": "geocache-walks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928823203696:android:968ce4ef0e7924e0b5a1b5",
+        "android_client_info": {
+          "package_name": "com.example.fitbitgroupk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928823203696-cfce28susaoa6odportp0qhoa0c57ll5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fitbitgroupk",
+            "certificate_hash": "e6e5ece2dee9d5c3437089a1554f9dc147108881"
+          }
+        },
+        {
+          "client_id": "928823203696-g42emrhd80ttvt1107iqspgnobu2gsms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKMB6feoRIpQWklyrk0ZHt17mALVHoTp8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928823203696-g42emrhd80ttvt1107iqspgnobu2gsms.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
