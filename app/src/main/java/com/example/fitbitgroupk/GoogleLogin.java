@@ -16,17 +16,17 @@ import androidx.core.content.ContextCompat;
 
 // Google authentication components
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.auth.api.signin.*;
 
 // Login class
 public class GoogleLogin extends AppCompatActivity {
 
-    // Declare each members buttons
+    // Declare login button
     private Button loginButton;
+
+    // Some good shit right here
     private GoogleSignInClient gsi;
+    GoogleSignInAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +105,7 @@ public class GoogleLogin extends AppCompatActivity {
     // Determine if the sign in was successful
     private void handleSignInResult(GoogleSignInResult result){
         if(result.isSuccess()){
+            account = result.getSignInAccount(); // Store account details
             permissionCheck();
         }else{
             Toast.makeText(getApplicationContext(),"Please sign in again!",Toast.LENGTH_LONG).show();
