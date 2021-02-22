@@ -1,14 +1,16 @@
 package com.example.fitbitgroupk;
 
 // Default libraries
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+
 // Google sign in library shit
-import com.google.android.gms.auth.api.signin.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,31 +23,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create a new google sign in object (GSI)
-        // This is where we'd add Google Fit permission requests
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        gsi = GoogleSignIn.getClient(this, gso);
+        launchLogin();
 
-        // Set the loginButton
-        loginButton = findViewById(R.id.loginButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                permissionCheck();
-            }
-        });
+
+    }//end create
+
+    public void launchLogin(){
+        Intent intent = new Intent(this, GoogleLogin.class);
+        startActivity(intent);
     }
-
-    // Permission check method
-    public void permissionCheck() {
-
-        // Generate a sign in request with designated intents
-        Intent signInIntent = gsi.getSignInIntent();
-        startActivityForResult(signInIntent, 12345);
-
-        // do shit with it (still unsure about this part)
-
-    }
-}
+}// end class
