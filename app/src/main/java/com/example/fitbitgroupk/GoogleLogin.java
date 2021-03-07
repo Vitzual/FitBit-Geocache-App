@@ -11,16 +11,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 // Core component's (namely for permissions)
 // Google authentication components
@@ -33,8 +40,9 @@ public class GoogleLogin extends AppCompatActivity {
 
     // Some good shit right here
     private GoogleSignInClient gsi;
-    GoogleSignInAccount account;
+    private GoogleSignInAccount account;
     private String TAG = "GoogleLogin";
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +51,10 @@ public class GoogleLogin extends AppCompatActivity {
         Log.e(TAG, "Google Login on create starts");
         // Create a new google sign in object (GSI)
         // This is where we'd add Google Fit permission requests
+
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id)) //default_web_client string is our Web application type client ID is your backend server's OAuth 2.0 client ID
                 .requestEmail()
                 .build();
         gsi = GoogleSignIn.getClient(this, gso);
@@ -56,6 +67,18 @@ public class GoogleLogin extends AppCompatActivity {
                 googleSignIn();
             }
         });
+
+        mAuth = FirebaseAuth.getInstance(); //creates a variable of the FirebaseAuth object using getInstance()
+    }
+
+    //This method is a shortcut if there is already a user signed in it will return the user, otherwise it is null
+    //Not currently using it to do anything but we can implement it later.
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //if (currentUser != null)
+        //        passUserToMain(currentUser); etc ??
     }
 
     // Generate a sign in request with designated intents
@@ -104,27 +127,47 @@ public class GoogleLogin extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==12345){
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result); // It's ok if it's null
+        if (requestCode == 12345) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                //As of right here i can access the google account
+                Log.d(TAG, "User: \t"+ account.getGivenName()) ;
+                Log.d(TAG, "firebaseAuthWithGoogle: " + account.getId());
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                Log.w(TAG, "Google Sign in Failed - Rob you loser"); //personal motivation to keep me going
+            }
         }
     }
 
-    // Determine if the sign in was successful
-    private void handleSignInResult(GoogleSignInResult result){
-        if(result.isSuccess()){
-            account = result.getSignInAccount(); // Store account details
-            permissionCheck();
-        }else{
-            Toast.makeText(getApplicationContext(),"Please sign in again!",Toast.LENGTH_LONG).show();
-        }
-    }
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            //the user variable is what we can use to access the Firebase user, Not sure about accessing it as a Google account yet though
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Log.d(TAG, "Email:\t" + user.getEmail() + "\nName:\t" + user.getDisplayName() + "\nPhone:\t" + user.getPhoneNumber());
 
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        }
+                    }
+                });
+    }
+    //Doing nothing yet
     // Gives activities permission to stored credentials
-    private void gotoProfile(){
+    private void gotoProfile() {
 
         // Start activity
-        Intent intent=new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-}
+
+}//end class
