@@ -1,22 +1,29 @@
 package com.example.fitbitgroupk;
 
 // Default libraries
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-// Core component's (namely for permissions)
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-// Google authentication components
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.*;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+
+// Core component's (namely for permissions)
+// Google authentication components
 
 // Login class
 public class GoogleLogin extends AppCompatActivity {
@@ -27,12 +34,13 @@ public class GoogleLogin extends AppCompatActivity {
     // Some good shit right here
     private GoogleSignInClient gsi;
     GoogleSignInAccount account;
+    private String TAG = "GoogleLogin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.e(TAG, "Google Login on create starts");
         // Create a new google sign in object (GSI)
         // This is where we'd add Google Fit permission requests
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

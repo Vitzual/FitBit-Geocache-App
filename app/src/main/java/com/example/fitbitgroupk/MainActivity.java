@@ -4,6 +4,7 @@ package com.example.fitbitgroupk;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     // Declare each members buttons
     private Button loginButton;
     private GoogleSignInClient gsi;
+    private String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        Log.e(TAG, "account =  " + account);
         if(account == null)
             launchLogin();
 
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }//end create
 
     public void launchLogin(){
+        Log.e(TAG, "launch login is called");
         Intent intent = new Intent(this, GoogleLogin.class);
         startActivity(intent);
     }
