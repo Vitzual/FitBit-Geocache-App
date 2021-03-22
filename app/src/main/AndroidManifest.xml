@@ -3,7 +3,10 @@
     package="com.example.fitbitgroupk">
 
     <!-- Get a permission request from the user -->
+    // Activity recognition will ask permission for the steps
+    // Fine location will ask permission for the location
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application

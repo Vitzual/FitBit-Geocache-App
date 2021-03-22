@@ -71,6 +71,19 @@ public class GoogleLogin extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance(); //creates a variable of the FirebaseAuth object using getInstance()
     }
 
+    //Location permissions
+    public void locationPermission(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                !=PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permission not granted", Toast.LENGTH_LONG).show();
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    999);
+        }else{
+            gotoProfile();
+        }
+    }
+
     //This method is a shortcut if there is already a user signed in it will return the user, otherwise it is null
     //Not currently using it to do anything but we can implement it later.
     @Override
