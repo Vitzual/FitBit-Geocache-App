@@ -1,8 +1,7 @@
 package com.example.fitbitgroupk;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,26 +9,32 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 public class MainPage extends AppCompatActivity {
 
+    // Text variables
+    protected TextView stepCount;
+    protected TextView stepGoal;
+    protected TextView welcome;
+
+    GoogleSignInAccount account;
+
     private String TAG = "MAIN_PAGE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
-        GoogleSignInAccount account =getIntent().getParcelableExtra("ACCOUNT");
-        String personGivenName = account.getGivenName();
-        String personFamilyName = account.getFamilyName();
-        String personEmail = account.getEmail();
-        String personId = account.getId();
-        Uri personPhoto = account.getPhotoUrl();
+        // Grab account object
+        account = getIntent().getParcelableExtra("ACCOUNT");
 
+        // Grab textView objects by ID
+        stepCount = findViewById(R.id.stepsToday);
+        stepGoal = findViewById(R.id.stepsRemaining);
+        welcome = findViewById((R.id.accountName));
 
-        //
-        Log.e(TAG, "MainPage Running");
-        Log.e(TAG, personFamilyName.toString());
-        Log.e(TAG, personGivenName.toString());
-        Log.e(TAG, personEmail.toString());
-        Log.e(TAG, personId.toString());
+        // Set textView objects
+        // stepCount = something;
+        // stepGoal = something;
+        welcome.setText(account.getDisplayName());
 
     }
 }
