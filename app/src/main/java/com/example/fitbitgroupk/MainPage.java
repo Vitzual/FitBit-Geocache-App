@@ -1,35 +1,35 @@
 package com.example.fitbitgroupk;
 
+import android.net.Uri;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 
 public class MainPage extends AppCompatActivity {
 
-    // Step text
-    TextView stepsToday;
-    TextView stepsGoal;
-    TextView signedInAs;
-
-    // Google account object
-    GoogleSignInAccount account;
-
+    private String TAG = "MAIN_PAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
-        // Grab the account that was last logged in
-        account = getIntent().getParcelableExtra("ACCOUNT");
+        GoogleSignInAccount account =getIntent().getParcelableExtra("ACCOUNT");
+        String personGivenName = account.getGivenName();
+        String personFamilyName = account.getFamilyName();
+        String personEmail = account.getEmail();
+        String personId = account.getId();
+        Uri personPhoto = account.getPhotoUrl();
 
-        // Set step text
-        signedInAs.setText(account.getDisplayName());
+
+        //
+        Log.e(TAG, "MainPage Running");
+        Log.e(TAG, personFamilyName.toString());
+        Log.e(TAG, personGivenName.toString());
+        Log.e(TAG, personEmail.toString());
+        Log.e(TAG, personId.toString());
+
     }
-
-
 }
