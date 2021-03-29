@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "928823203696-6mo9k1d5399o4cb3gckgtlj99o9qegkk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fitbitgroupk",
+            "certificate_hash": "e6e5ece2dee9d5c3437089a1554f9dc147108881"
+          }
+        },
+        {
+          "client_id": "928823203696-95n3j992nfo7buq4sir3llu5d0n745u7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fitbitgroupk",
+            "certificate_hash": "50d08016424cda77ea0356a78df8b0003a2069a8"
+          }
+        },
+        {
           "client_id": "928823203696-omh9dockrgvsc55bsei2hqgffn9q9l4p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

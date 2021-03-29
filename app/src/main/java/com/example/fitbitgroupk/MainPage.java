@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -13,13 +14,20 @@ import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Goal;
 import com.google.android.gms.fitness.request.GoalsReadRequest;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class MainPage extends AppCompatActivity {
+public class MainPage extends AppCompatActivity implements OnMapReadyCallback {
 
     // Text variables
     protected TextView stepCount;
@@ -29,6 +37,10 @@ public class MainPage extends AppCompatActivity {
     // Google account objects
     protected List<Goal> goals;
     protected GoogleSignInAccount account;
+
+    // Google map object and fragment manager
+    private GoogleMap mMap;
+    private FragmentManager mFragmentManager;
 
     private String TAG = "MAIN_PAGE";
 
@@ -78,9 +90,26 @@ public class MainPage extends AppCompatActivity {
         stepGoal = findViewById(R.id.stepsRemaining);
 
         // Set textView objects
-        // stepCount.setText(goals.get(0).getObjectiveType());
-        // stepGoal = something;
+        // stepCount.setText(goals.get(0).toString());
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map); // This returns null, resulting in the map not being loaded
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
 
+        setupLayout();
 
+        mFragmentManager = getSupportFragmentManager();
+    }
+
+    private void setupLayout() { }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(50.66987170679699, -120.36521149873413);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("TRU"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

@@ -8,7 +8,7 @@
     android:background="@drawable/backgroundcooler">
 
     <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
+        android:id="@+id/map"
         android:layout_width="378dp"
         android:layout_height="303dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.379"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapView"
+        app:layout_constraintTop_toBottomOf="@+id/map"
         app:layout_constraintVertical_bias="0.333" />
 
     <TextView
