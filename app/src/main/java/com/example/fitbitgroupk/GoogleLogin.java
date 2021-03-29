@@ -29,6 +29,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 // Core component's (namely for permissions)
 // Google authentication components
 
@@ -52,11 +55,12 @@ public class GoogleLogin extends AppCompatActivity {
         // Create a new google sign in object (GSI)
         // This is where we'd add Google Fit permission requests
 
-
+        // Default google sign in options
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)) //default_web_client string is our Web application type client ID is your backend server's OAuth 2.0 client ID
                 .requestEmail()
                 .build();
+
         gsi = GoogleSignIn.getClient(this, gso);
 
         // Set the loginButton
