@@ -148,6 +148,7 @@ public class GoogleLogin extends AppCompatActivity {
                 Log.d(TAG, "User: \t"+ account.getGivenName()) ;
                 Log.d(TAG, "firebaseAuthWithGoogle: " + account.getId());
                 firebaseAuthWithGoogle(account.getIdToken());
+                gotoProfile();
             } catch (ApiException e) {
                 Log.w(TAG, "Google Sign in Failed - Rob you loser"); //personal motivation to keep me going
             }
@@ -179,7 +180,9 @@ public class GoogleLogin extends AppCompatActivity {
     private void gotoProfile() {
 
         // Start activity
-        Intent intent = new Intent(this, MainActivity.class);
+        Log.e(TAG, "launch main page is called");
+        Intent intent = new Intent(this, MainPage.class);
+        intent.putExtra("ACCOUNT", account);
         startActivity(intent);
     }
 
