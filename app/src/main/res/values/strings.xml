@@ -3,4 +3,7 @@
     <string name="loginButton">Login</string>
     <string name="app_name">Geocache Walks</string>
     <string name="googleapp">googleapp</string>
+    <string name="find_me_a_route">Find Me A Route!</string>
+    <string name="remaining_steps">Remaining Steps:</string>
+    <string name="your_steps_today">Your Steps Today:</string>
 </resources>
