@@ -32,15 +32,15 @@ public class MainActivity extends AppCompatActivity {
         if(account == null)
             launchLogin();
         else
-            launchMainPage();
+            launchMainPage(account);
 
     }//end create
 
-    private void launchMainPage() {
+    private void launchMainPage(GoogleSignInAccount account) {
         Log.e(TAG, "launch main page is called");
         Intent intent = new Intent(this, MainPage.class);
+        intent.putExtra("ACCOUNT", account);
         startActivity(intent);
-
     }
 
     public void launchLogin(){

@@ -174,6 +174,8 @@ public class GoogleLogin extends AppCompatActivity {
                     }
                 });
     }
+
+
     //Doing nothing yet
     // Gives activities permission to stored credentials
     private void gotoProfile() {
