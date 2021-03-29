@@ -31,9 +31,17 @@ public class MainActivity extends AppCompatActivity {
         Log.e(TAG, "account =  " + account);
         if(account == null)
             launchLogin();
-
+        else
+            launchMainPage();
 
     }//end create
+
+    private void launchMainPage() {
+        Log.e(TAG, "launch main page is called");
+        Intent intent = new Intent(this, MainPage.class);
+        startActivity(intent);
+
+    }
 
     public void launchLogin(){
         Log.e(TAG, "launch login is called");
