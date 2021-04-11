@@ -22,7 +22,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -88,6 +87,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback {
         // Grab textView objects by ID
         stepCount = findViewById(R.id.stepsToday);
         stepGoal = findViewById(R.id.stepsRemaining);
+
 
         // Set textView objects
         // stepCount.setText(goals.get(0).toString());

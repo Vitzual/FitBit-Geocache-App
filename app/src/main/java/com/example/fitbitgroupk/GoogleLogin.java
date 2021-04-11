@@ -3,6 +3,7 @@ package com.example.fitbitgroupk;
 // Default libraries
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -29,9 +30,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 // Core component's (namely for permissions)
 // Google authentication components
 
@@ -46,6 +44,11 @@ public class GoogleLogin extends AppCompatActivity {
     private GoogleSignInAccount account;
     private String TAG = "GoogleLogin";
     private FirebaseAuth mAuth;
+   private int PERMISSION_ALL = 1;
+    private String[] PERMISSIONS = {
+            Manifest.permission.ACTIVITY_RECOGNITION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +97,7 @@ public class GoogleLogin extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        //if (currentUser != null)
-        //        passUserToMain(currentUser); etc ??
+
     }
 
     // Generate a sign in request with designated intents
@@ -104,40 +106,46 @@ public class GoogleLogin extends AppCompatActivity {
         startActivityForResult(signInIntent, 12345);
     }
 
-    // Permission check method
-    // 12345 = Google Account RQC
-    // 123 = Android Activity RQC
-    public void permissionCheck() {
-
-        // Check that the permission from manifest file was met
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
-                != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Missing required permissions!", Toast.LENGTH_LONG).show();
-
-            // Request for the required permission
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACTIVITY_RECOGNITION},
-                    123);
-        } else {
-            gotoProfile();
+    //This method checks if the necessary permissions have already been granted.
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
         }
-
+        return true;
     }
 
     // Method override that gets called when the user either accepts or denies a permission request
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         // Code Analysis might hate this, but we need this for the future when more permissions may
-        // need to be requested and accessed
+         //need to be requested and accessed
         switch (requestCode) {
-            case 123:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            case 1:
+                if(hasAllPermissionsGranted(grantResults)){
+                    // all permissions granted
+                    Toast.makeText(this, "Welcome to geo-cache walks!", Toast.LENGTH_SHORT).show();
                     gotoProfile();
-                } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                }else {
+                    // some permission are denied.
+                    Toast.makeText(this, "This app wont operate without the necessary permissions!", Toast.LENGTH_SHORT).show();
                 }
         }
+    }
+
+    //Method to ensure that ALL the permissions have been granted.
+    public boolean hasAllPermissionsGranted(@NonNull int[] grantResults) {
+        //loop through the grant results.
+        for (int grantResult : grantResults) {
+            //if it finds any that are denied, it will return false.
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // After signing in, store information or return a sign in failure message
@@ -152,8 +160,11 @@ public class GoogleLogin extends AppCompatActivity {
                 Log.d(TAG, "User: \t"+ account.getGivenName()) ;
                 Log.d(TAG, "firebaseAuthWithGoogle: " + account.getId());
                 firebaseAuthWithGoogle(account.getIdToken());
-                permissionCheck();
-                //gotoProfile();
+
+                //if the app doesn't have the necessary permissions set, it will prompt the user to request permissions.
+                if(!hasPermissions(this, PERMISSIONS)){
+                    ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+                }
             } catch (ApiException e) {
                 Log.w(TAG, "Google Sign in Failed - Rob you loser"); //personal motivation to keep me going
             }
